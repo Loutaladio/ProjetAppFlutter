@@ -189,10 +189,17 @@ class WelcomeScreen extends StatelessWidget {
               Expanded(flex: 9, child: Center(child: SingleChildScrollView(padding: const EdgeInsets.all(56), child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 440), child: _LoginCard())))),
             ]);
           }
-          return SafeArea(child: Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 430), child: Column(children: [
-            Container(height: 300, width: double.infinity, color: deepBlue, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [BrandSignature(inverted: true), SizedBox(height: 20), Text('WELCOME!', style: TextStyle(color: Colors.white, fontSize: 21, letterSpacing: .7)), SizedBox(height: 25), Icon(Icons.account_balance, color: Colors.white, size: 112)])),
-            Expanded(child: Padding(padding: const EdgeInsets.fromLTRB(32, 26, 32, 20), child: _LoginCard())),
-          ])));
+          return SafeArea(
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 430),
+                child: Column(children: [
+                  Container(height: 300, width: double.infinity, color: deepBlue, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [BrandSignature(inverted: true), SizedBox(height: 20), Text('WELCOME!', style: TextStyle(color: Colors.white, fontSize: 21, letterSpacing: .7)), SizedBox(height: 25), Icon(Icons.account_balance, color: Colors.white, size: 112)])),
+                  Expanded(child: Padding(padding: const EdgeInsets.fromLTRB(32, 26, 32, 20), child: _LoginCard())),
+                ]),
+              ),
+            ),
+          );
         }),
       );
 }
@@ -208,25 +215,29 @@ class _FeaturePill extends StatelessWidget {
 class _LoginCard extends StatelessWidget {
   const _LoginCard();
   @override
-  Widget build(BuildContext context) => Container(padding: const EdgeInsets.all(34), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 30, offset: Offset(0, 12))]), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('Bienvenue', style: TextStyle(color: ink, fontSize: 30, fontWeight: FontWeight.w700)),
-        const SizedBox(height: 7),
-        const Text('Connectez-vous à votre espace BankFlow.', style: TextStyle(color: Colors.grey, fontSize: 13)),
-        const SizedBox(height: 28),
-        const Text('IDENTIFIANT', style: TextStyle(color: navy, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
-        const SizedBox(height: 7),
-        const TextField(decoration: InputDecoration(hintText: 'Username or Email', prefixIcon: Icon(Icons.person_outline, size: 19))),
-        const SizedBox(height: 17),
-        const Text('MOT DE PASSE', style: TextStyle(color: navy, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
-        const SizedBox(height: 7),
-        const TextField(obscureText: true, decoration: InputDecoration(hintText: 'Password', prefixIcon: Icon(Icons.lock_outline, size: 19))),
-        const SizedBox(height: 22),
-        SizedBox(width: double.infinity, height: 48, child: ElevatedButton(onPressed: () => Navigator.pushNamed(context, '/dashboard'), style: ElevatedButton.styleFrom(backgroundColor: navy, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))), child: const Text('SE CONNECTER', style: TextStyle(letterSpacing: 1, fontWeight: FontWeight.bold))),
-        const SizedBox(height: 12),
-        Center(child: TextButton(onPressed: () {}, child: const Text('Mot de passe oublié ?', style: TextStyle(color: cyan, fontSize: 12)))),
-        const Divider(height: 28),
-        Center(child: Text.rich(TextSpan(text: 'Nouveau sur BankFlow ? ', style: const TextStyle(color: Colors.grey, fontSize: 12), children: [WidgetSpan(child: GestureDetector(onTap: () => Navigator.pushNamed(context, '/signup'), child: const Text('Créer un compte', style: TextStyle(color: cyan, fontSize: 12, fontWeight: FontWeight.bold))))])),
-      ]));
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.all(34),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 30, offset: Offset(0, 12))]),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Text('Bienvenue', style: TextStyle(color: ink, fontSize: 30, fontWeight: FontWeight.w700)),
+          const SizedBox(height: 7),
+          const Text('Connectez-vous à votre espace BankFlow.', style: TextStyle(color: Colors.grey, fontSize: 13)),
+          const SizedBox(height: 28),
+          const Text('IDENTIFIANT', style: TextStyle(color: navy, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
+          const SizedBox(height: 7),
+          const TextField(decoration: InputDecoration(hintText: 'Username or Email', prefixIcon: Icon(Icons.person_outline, size: 19))),
+          const SizedBox(height: 17),
+          const Text('MOT DE PASSE', style: TextStyle(color: navy, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
+          const SizedBox(height: 7),
+          const TextField(obscureText: true, decoration: InputDecoration(hintText: 'Password', prefixIcon: Icon(Icons.lock_outline, size: 19))),
+          const SizedBox(height: 22),
+          SizedBox(width: double.infinity, height: 48, child: ElevatedButton(onPressed: () => Navigator.pushNamed(context, '/dashboard'), style: ElevatedButton.styleFrom(backgroundColor: navy, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))), child: const Text('SE CONNECTER', style: TextStyle(letterSpacing: 1, fontWeight: FontWeight.bold)))),
+          const SizedBox(height: 12),
+          Center(child: TextButton(onPressed: () {}, child: const Text('Mot de passe oublié ?', style: TextStyle(color: cyan, fontSize: 12)))),
+          const Divider(height: 28),
+          Center(child: Text.rich(TextSpan(text: 'Nouveau sur BankFlow ? ', style: const TextStyle(color: Colors.grey, fontSize: 12), children: [WidgetSpan(child: GestureDetector(onTap: () => Navigator.pushNamed(context, '/signup'), child: const Text('Créer un compte', style: TextStyle(color: cyan, fontSize: 12, fontWeight: FontWeight.bold))))]))),
+        ]),
+      );
 }
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
