@@ -1,0 +1,16 @@
+name: bankflow
+publish_to: 'none'
+description: Reproduction Flutter d'une interface bancaire mobile.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/dg_club.png
