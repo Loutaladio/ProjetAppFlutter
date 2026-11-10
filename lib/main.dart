@@ -95,29 +95,58 @@ class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: SafeArea(child: Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 430), child: Column(children: [
-          Container(height: 300, width: double.infinity, color: deepBlue, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const BrandSignature(inverted: true),
-            const SizedBox(height: 20),
-            const Text('WELCOME!', style: TextStyle(color: Colors.white, fontSize: 21, letterSpacing: .7)),
-            const SizedBox(height: 25),
-            Icon(Icons.account_balance, color: Colors.white, size: 112),
-          ])),
-          Expanded(child: Padding(padding: const EdgeInsets.fromLTRB(32, 26, 32, 20), child: Column(children: [
-            const TextField(decoration: InputDecoration(hintText: 'Username or Email')),
-            const SizedBox(height: 11),
-            const TextField(obscureText: true, decoration: InputDecoration(hintText: 'Password')),
-            const SizedBox(height: 12),
-            PrimaryButton(label: 'LOG IN', onPressed: () => Navigator.pushNamed(context, '/dashboard'), width: 95),
-            const SizedBox(height: 22),
-            TextButton(onPressed: () {}, child: const Text('Forgot Password?', style: TextStyle(color: cyan, decoration: TextDecoration.underline, fontSize: 12))),
-            const Spacer(),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [const Text('New to Bank Apps? ', style: TextStyle(color: Colors.grey, fontSize: 12)), TextButton(onPressed: () => Navigator.pushNamed(context, '/signup'), child: const Text('Sign Up', style: TextStyle(color: cyan, decoration: TextDecoration.underline, fontSize: 12)))]) ,
-          ]))),
-        ]))),
+        body: SafeArea(
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 430),
+              child: Column(
+                children: [
+                  Container(
+                    height: 300,
+                    width: double.infinity,
+                    color: deepBlue,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        BrandSignature(inverted: true),
+                        SizedBox(height: 20),
+                        Text('WELCOME!', style: TextStyle(color: Colors.white, fontSize: 21, letterSpacing: .7)),
+                        SizedBox(height: 25),
+                        Icon(Icons.account_balance, color: Colors.white, size: 112),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(32, 26, 32, 20),
+                      child: Column(
+                        children: [
+                          const TextField(decoration: InputDecoration(hintText: 'Username or Email')),
+                          const SizedBox(height: 11),
+                          const TextField(obscureText: true, decoration: InputDecoration(hintText: 'Password')),
+                          const SizedBox(height: 12),
+                          PrimaryButton(label: 'LOG IN', onPressed: () => Navigator.pushNamed(context, '/dashboard'), width: 95),
+                          const SizedBox(height: 22),
+                          TextButton(onPressed: () {}, child: const Text('Forgot Password?', style: TextStyle(color: cyan, decoration: TextDecoration.underline, fontSize: 12))),
+                          const Spacer(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('New to Bank Apps? ', style: TextStyle(color: Colors.grey, fontSize: 12)),
+                              TextButton(onPressed: () => Navigator.pushNamed(context, '/signup'), child: const Text('Sign Up', style: TextStyle(color: cyan, decoration: TextDecoration.underline, fontSize: 12))),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       );
 }
-
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
   @override
@@ -189,8 +218,32 @@ class _DashboardAction extends StatelessWidget {
 class AccountScreen extends StatelessWidget { const AccountScreen({super.key}); @override Widget build(BuildContext context) => ScreenShell(title: 'Account', child: FormPage(button: 'SAVE CHANGES', fields: const ['YOUR NAME','BANK ACCOUNT','EMAIL','PASSWORD','PHONE NUMBER','YOUR ADDRESS'], onPressed: () {})); }
 class AddCardScreen extends StatelessWidget { const AddCardScreen({super.key}); @override Widget build(BuildContext context) => ScreenShell(title: 'Add Card', child: ListView(padding: const EdgeInsets.fromLTRB(32, 17, 32, 25), children: [const CardMock(), const SizedBox(height: 18), ...['YOUR NAME','CARD NUMBER'].map((x) => Padding(padding: const EdgeInsets.only(bottom: 10), child: TextField(decoration: InputDecoration(labelText: x, hintText: x == 'YOUR NAME' ? 'NAME' : 'INSERT YOUR CARD NUMBER')))), const Row(children: [Expanded(child: TextField(decoration: InputDecoration(labelText: 'EXPIRED DATE', hintText: 'Day'))), SizedBox(width: 7), Expanded(child: TextField(decoration: InputDecoration(hintText: 'Month'))), SizedBox(width: 7), Expanded(child: TextField(decoration: InputDecoration(hintText: 'Year')))]), const SizedBox(height: 10), const TextField(obscureText: true, decoration: InputDecoration(labelText: 'PASSWORD')), const SizedBox(height: 10), const TextField(decoration: InputDecoration(labelText: 'PHONE NUMBER')), const SizedBox(height: 15), const Text('• Num facibus a pellentesque sit amet porttitor eget dolor morbi non.\n• Num facibus a pellentesque sit amet porttitor eget dolor morbi non.', style: TextStyle(fontSize: 10, color: Colors.grey)), const SizedBox(height: 20), PrimaryButton(label: 'LINK CARD', onPressed: () {}, width: 95)])); }
 
-class FormPage extends StatelessWidget { final String button; final List<String> fields; final VoidCallback onPressed; const FormPage({super.key, required this.button, required this.fields, required this.onPressed}); @override Widget build(BuildContext context) => ListView(padding: const EdgeInsets.fromLTRB(32, 18, 32, 25), children: [const CircleAvatar(radius: 40, backgroundColor: Colors.white, child: Icon(Icons.person, color: cyan, size: 57)), const SizedBox(height: 12), ...fields.map((f) => Padding(padding: const EdgeInsets.only(bottom: 10), child: TextField(obscureText: f == 'PASSWORD', maxLines: f == 'YOUR ADDRESS' ? 2 : 1, decoration: InputDecoration(labelText: f, hintText: f == 'PASSWORD' ? '********' : ''))), const SizedBox(height: 5), const Text('• Num facibus a pellentesque sit amet porttitor eget dolor morbi non.', style: TextStyle(fontSize: 10, color: Colors.grey)), const SizedBox(height: 20), Center(child: PrimaryButton(label: button, onPressed: onPressed, width: 105))]); }
-
+class FormPage extends StatelessWidget {
+  final String button;
+  final List<String> fields;
+  final VoidCallback onPressed;
+  const FormPage({super.key, required this.button, required this.fields, required this.onPressed});
+  @override
+  Widget build(BuildContext context) => ListView(
+        padding: const EdgeInsets.fromLTRB(32, 18, 32, 25),
+        children: [
+          const CircleAvatar(radius: 40, backgroundColor: Colors.white, child: Icon(Icons.person, color: cyan, size: 57)),
+          const SizedBox(height: 12),
+          ...fields.map((f) => Padding(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: TextField(
+                  obscureText: f == 'PASSWORD',
+                  maxLines: f == 'YOUR ADDRESS' ? 2 : 1,
+                  decoration: InputDecoration(labelText: f, hintText: f == 'PASSWORD' ? '********' : ''),
+                ),
+              )),
+          const SizedBox(height: 5),
+          const Text('• Num facibus a pellentesque sit amet porttitor eget dolor morbi non.', style: TextStyle(fontSize: 10, color: Colors.grey)),
+          const SizedBox(height: 20),
+          Center(child: PrimaryButton(label: button, onPressed: onPressed, width: 105)),
+        ],
+      );
+}
 class CardMock extends StatelessWidget { const CardMock({super.key}); @override Widget build(BuildContext context) => Center(child: Container(width: 115, height: 72, padding: const EdgeInsets.all(10), decoration: BoxDecoration(color: cyan, borderRadius: BorderRadius.circular(5), boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 3, offset: Offset(1, 2))]), child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('BANK NAME', style: TextStyle(color: navy, fontSize: 7)), Spacer(), Text('•••• •••• ••••', style: TextStyle(color: Colors.white, fontSize: 9, letterSpacing: 1)), Text('CARD 1', style: TextStyle(color: navy, fontSize: 7))]))); }
 
 class QrScreen extends StatelessWidget { const QrScreen({super.key}); @override Widget build(BuildContext context) => ScreenShell(title: 'Transaction', child: Column(children: [Container(color: deepBlue, padding: const EdgeInsets.fromLTRB(20, 27, 20, 22), child: Column(children: [const Text('SCAN THIS QR CODE', style: TextStyle(color: Colors.white, fontSize: 10)), const SizedBox(height: 12), Container(width: 130, height: 130, color: Colors.white, child: const Icon(Icons.qr_code_2, color: Colors.black, size: 115)), const SizedBox(height: 20), const Text('YOUR NAME', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1)), const Text('your-email@email.com', style: TextStyle(color: Colors.white70, fontSize: 10))])), const Spacer(), const Text('Try BARCODE', style: TextStyle(color: Colors.grey, fontSize: 11)), const Icon(Icons.barcode_reader, color: navy, size: 72), const SizedBox(height: 20), const Text('Can’t scan the QR Code?\nTry Bank Account', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey, fontSize: 11)), const SizedBox(height: 22)])); }
@@ -212,7 +265,58 @@ class ExchangeScreen extends StatelessWidget { const ExchangeScreen({super.key})
 Widget _amount(String currency, String value) => Padding(padding: const EdgeInsets.only(bottom: 12), child: Row(children: [Container(padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14), decoration: BoxDecoration(color: Colors.white, border: Border.all(color: Colors.grey), borderRadius: BorderRadius.circular(8)), child: Text(currency, style: const TextStyle(color: navy, fontWeight: FontWeight.bold))), const SizedBox(width: 8), Expanded(child: TextField(controller: TextEditingController(text: value), textAlign: TextAlign.right, style: const TextStyle(color: ink, fontWeight: FontWeight.bold, fontSize: 18), decoration: const InputDecoration()))]));
 
 class CalculatorScreen extends StatefulWidget { const CalculatorScreen({super.key}); @override State<CalculatorScreen> createState() => _CalculatorState(); }
-class _CalculatorState extends State<CalculatorScreen> { String display = '0'; String stored = ''; String op = ''; void press(String value) { setState(() { if ('0123456789.'.contains(value)) { display = display == '0' ? value : display + value; } else if (value == 'C') { display = '0'; stored = ''; op = ''; } else if (value == '=') { final a = double.tryParse(stored) ?? 0; final b = double.tryParse(display) ?? 0; final r = op == '+' ? a + b : op == '−' ? a - b : op == '×' ? a * b : op == '÷' && b != 0 ? a / b : b; display = r.toStringAsFixed(r.truncateToDouble() == r ? 0 : 2); stored = ''; op = ''; } else { stored = display; display = '0'; op = value; } }); } @override Widget build(BuildContext context) { final keys = ['C','÷','×','−','7','8','9','+','4','5','6','%','1','2','3','=', '00','0','.','⌫']; return ScreenShell(title: 'Calculator', child: Padding(padding: const EdgeInsets.all(14), child: Column(children: [Container(width: double.infinity, padding: const EdgeInsets.fromLTRB(18, 24, 18, 16), alignment: Alignment.centerRight, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5), border: Border.all(color: const Color(0xFF9AA6AD))), child: Text(display, style: const TextStyle(color: ink, fontSize: 34, fontWeight: FontWeight.w300))), const SizedBox(height: 12), Expanded(child: GridView.count(crossAxisCount: 4, crossAxisSpacing: 4, mainAxisSpacing: 4, children: keys.map((key) => CalculatorKey(label: key, onTap: () => press(key), accent: ['÷','×','−','+','%','=','C'].contains(key))).toList()))])); } }
+class _CalculatorState extends State<CalculatorScreen> {
+  String display = '0';
+  String stored = '';
+  String op = '';
+  void press(String value) {
+    setState(() {
+      if ('0123456789.'.contains(value)) {
+        display = display == '0' ? value : display + value;
+      } else if (value == 'C') {
+        display = '0'; stored = ''; op = '';
+      } else if (value == '=') {
+        final a = double.tryParse(stored) ?? 0;
+        final b = double.tryParse(display) ?? 0;
+        final r = op == '+' ? a + b : op == '−' ? a - b : op == '×' ? a * b : op == '÷' && b != 0 ? a / b : b;
+        display = r.toStringAsFixed(r.truncateToDouble() == r ? 0 : 2);
+        stored = ''; op = '';
+      } else {
+        stored = display; display = '0'; op = value;
+      }
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    final keys = ['C', '÷', '×', '−', '7', '8', '9', '+', '4', '5', '6', '%', '1', '2', '3', '=', '00', '0', '.', '⌫'];
+    return ScreenShell(
+      title: 'Calculator',
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Column(
+          children: [
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.fromLTRB(18, 24, 18, 16),
+              alignment: Alignment.centerRight,
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(5), border: Border.all(color: const Color(0xFF9AA6AD))),
+              child: Text(display, style: const TextStyle(color: ink, fontSize: 34, fontWeight: FontWeight.w300)),
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 4,
+                crossAxisSpacing: 4,
+                mainAxisSpacing: 4,
+                children: keys.map((key) => CalculatorKey(label: key, onTap: () => press(key), accent: ['÷', '×', '−', '+', '%', '=', 'C'].contains(key))).toList(),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
 class CalculatorKey extends StatelessWidget { final String label; final VoidCallback onTap; final bool accent; const CalculatorKey({super.key, required this.label, required this.onTap, required this.accent}); @override Widget build(BuildContext context) => Material(color: accent ? navy : deepBlue, child: InkWell(onTap: onTap, child: Center(child: Text(label, style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500))))); }
 
 class PrimaryButton extends StatelessWidget { final String label; final VoidCallback onPressed; final double width; final double height; const PrimaryButton({super.key, required this.label, required this.onPressed, this.width = 120, this.height = 32}); @override Widget build(BuildContext context) => SizedBox(width: width, height: height, child: ElevatedButton(onPressed: onPressed, style: ElevatedButton.styleFrom(backgroundColor: navy, foregroundColor: Colors.white, padding: EdgeInsets.zero, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3))), child: Text(label, style: const TextStyle(fontSize: 9, letterSpacing: 1.2)))); }
