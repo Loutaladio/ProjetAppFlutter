@@ -67,85 +67,166 @@ class ScreenShell extends StatelessWidget {
   final List<Widget>? actions;
   const ScreenShell({super.key, required this.title, required this.child, this.back = true, this.actions});
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 430),
-              child: Column(children: [
-                Container(
-                  height: 58,
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
-                  decoration: const BoxDecoration(color: navy, boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(0, 2))]),
-                  child: Row(children: [
-                    IconButton(onPressed: () => Navigator.maybePop(context), icon: Icon(back ? Icons.arrow_back_ios_new : Icons.menu, color: Colors.white, size: 19)),
-                    Expanded(child: Text(title.toUpperCase(), textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontSize: 13, letterSpacing: 2.1, fontWeight: FontWeight.w500))),
-                    IconButton(onPressed: () {}, icon: const Icon(Icons.settings, color: Colors.white, size: 19)),
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, constraints) {
+          final desktop = constraints.maxWidth >= 900;
+          if (desktop) {
+            return Scaffold(
+              backgroundColor: page,
+              body: Row(
+                children: [
+                  const DesktopSidebar(),
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 76,
+                          padding: const EdgeInsets.symmetric(horizontal: 42),
+                          decoration: const BoxDecoration(color: Colors.white, border: Border(bottom: BorderSide(color: Color(0xFFE4EAF0))), boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 12, offset: Offset(0, 3))]),
+                          child: Row(children: [
+                            Text(title, style: const TextStyle(color: ink, fontSize: 22, fontWeight: FontWeight.w700)),
+                            const Spacer(),
+                            Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8), decoration: BoxDecoration(color: const Color(0xFFF3F7FA), borderRadius: BorderRadius.circular(20)), child: const Row(children: [Icon(Icons.verified_user_outlined, color: cyan, size: 17), SizedBox(width: 7), Text('Espace sécurisé', style: TextStyle(color: ink, fontSize: 12))])),
+                            const SizedBox(width: 20),
+                            const CircleAvatar(radius: 19, backgroundColor: deepBlue, child: Icon(Icons.person, color: Colors.white, size: 23)),
+                            const SizedBox(width: 10),
+                            const Text('LOUTALADIO\nDanick Arcel', style: TextStyle(color: ink, fontSize: 11, fontWeight: FontWeight.w600)),
+                          ]),
+                        ),
+                        Expanded(child: Container(color: page, alignment: Alignment.topCenter, child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 1180), child: child))),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }
+          return Scaffold(
+            body: SafeArea(
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 430),
+                  child: Column(children: [
+                    Container(
+                      height: 58,
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      decoration: const BoxDecoration(color: navy, boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 5, offset: Offset(0, 2))]),
+                      child: Row(children: [
+                        IconButton(onPressed: () => Navigator.maybePop(context), icon: Icon(back ? Icons.arrow_back_ios_new : Icons.menu, color: Colors.white, size: 19)),
+                        Expanded(child: Text(title.toUpperCase(), textAlign: TextAlign.center, style: const TextStyle(color: Colors.white, fontSize: 13, letterSpacing: 2.1, fontWeight: FontWeight.w500))),
+                        IconButton(onPressed: () {}, icon: const Icon(Icons.settings, color: Colors.white, size: 19)),
+                      ]),
+                    ),
+                    Expanded(child: child),
                   ]),
                 ),
-                Expanded(child: child),
-              ]),
+              ),
             ),
-          ),
-        ),
+          );
+        },
       );
+}
+
+class DesktopSidebar extends StatelessWidget {
+  const DesktopSidebar({super.key});
+  @override
+  Widget build(BuildContext context) => Container(
+        width: 254,
+        color: navy,
+        padding: const EdgeInsets.fromLTRB(20, 28, 20, 24),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const BrandSignature(inverted: true),
+          const SizedBox(height: 42),
+          const Text('BANKFLOW', style: TextStyle(color: Colors.white54, fontSize: 10, letterSpacing: 2)),
+          const SizedBox(height: 12),
+          _SidebarItem(icon: Icons.dashboard_outlined, label: 'Vue d’ensemble', route: '/dashboard'),
+          _SidebarItem(icon: Icons.person_outline, label: 'Mon compte', route: '/account'),
+          _SidebarItem(icon: Icons.swap_horiz, label: 'Transactions', route: '/transactions'),
+          _SidebarItem(icon: Icons.credit_card_outlined, label: 'Ajouter une carte', route: '/add-card'),
+          const SizedBox(height: 22),
+          const Text('OUTILS', style: TextStyle(color: Colors.white54, fontSize: 10, letterSpacing: 2)),
+          const SizedBox(height: 12),
+          _SidebarItem(icon: Icons.receipt_long_outlined, label: 'Paiements', route: '/payment'),
+          _SidebarItem(icon: Icons.currency_exchange, label: 'Change', route: '/exchange'),
+          _SidebarItem(icon: Icons.calculate_outlined, label: 'Calculatrice', route: '/calculator'),
+          const Spacer(),
+          Container(padding: const EdgeInsets.all(14), decoration: BoxDecoration(color: Colors.white.withOpacity(.09), borderRadius: BorderRadius.circular(14)), child: const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text('DG CLUB', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1.4)), SizedBox(height: 5), Text('Une identité claire.\nDes parcours mieux structurés.', style: TextStyle(color: Colors.white70, fontSize: 11, height: 1.4))])),
+          const SizedBox(height: 18),
+          const Text('© DG Club · LOUTALADIO Danick Arcel', style: TextStyle(color: Colors.white38, fontSize: 9)),
+        ]),
+      );
+}
+
+class _SidebarItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String route;
+  const _SidebarItem({required this.icon, required this.label, required this.route});
+  @override
+  Widget build(BuildContext context) => Padding(padding: const EdgeInsets.only(bottom: 5), child: InkWell(onTap: () => Navigator.pushNamed(context, route), borderRadius: BorderRadius.circular(10), child: Padding(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 13), child: Row(children: [Icon(icon, color: Colors.white70, size: 20), const SizedBox(width: 12), Text(label, style: const TextStyle(color: Colors.white, fontSize: 13))]))));
 }
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: SafeArea(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 430),
-              child: Column(
-                children: [
-                  Container(
-                    height: 300,
-                    width: double.infinity,
-                    color: deepBlue,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        BrandSignature(inverted: true),
-                        SizedBox(height: 20),
-                        Text('WELCOME!', style: TextStyle(color: Colors.white, fontSize: 21, letterSpacing: .7)),
-                        SizedBox(height: 25),
-                        Icon(Icons.account_balance, color: Colors.white, size: 112),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(32, 26, 32, 20),
-                      child: Column(
-                        children: [
-                          const TextField(decoration: InputDecoration(hintText: 'Username or Email')),
-                          const SizedBox(height: 11),
-                          const TextField(obscureText: true, decoration: InputDecoration(hintText: 'Password')),
-                          const SizedBox(height: 12),
-                          PrimaryButton(label: 'LOG IN', onPressed: () => Navigator.pushNamed(context, '/dashboard'), width: 95),
-                          const SizedBox(height: 22),
-                          TextButton(onPressed: () {}, child: const Text('Forgot Password?', style: TextStyle(color: cyan, decoration: TextDecoration.underline, fontSize: 12))),
-                          const Spacer(),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text('New to Bank Apps? ', style: TextStyle(color: Colors.grey, fontSize: 12)),
-                              TextButton(onPressed: () => Navigator.pushNamed(context, '/signup'), child: const Text('Sign Up', style: TextStyle(color: cyan, decoration: TextDecoration.underline, fontSize: 12))),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
+        backgroundColor: page,
+        body: LayoutBuilder(builder: (context, constraints) {
+          final desktop = constraints.maxWidth >= 900;
+          if (desktop) {
+            return Row(children: [
+              Expanded(flex: 11, child: Container(color: deepBlue, padding: const EdgeInsets.all(70), child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
+                const BrandSignature(inverted: true),
+                const SizedBox(height: 70),
+                const Text('Votre argent,\nvotre rythme.', style: TextStyle(color: Colors.white, fontSize: 50, fontWeight: FontWeight.w700, height: 1.05)),
+                const SizedBox(height: 22),
+                const Text('Une expérience bancaire claire, pensée par\nDG Club pour rester simple au quotidien.', style: TextStyle(color: Colors.white70, fontSize: 17, height: 1.55)),
+                const SizedBox(height: 52),
+                Wrap(spacing: 12, runSpacing: 12, children: const [_FeaturePill(icon: Icons.shield_outlined, label: 'Sécurisé'), _FeaturePill(icon: Icons.bolt_outlined, label: 'Rapide'), _FeaturePill(icon: Icons.insights_outlined, label: 'Lisible')]),
+                const SizedBox(height: 80),
+                const Text('BANKFLOW · Une identité DG Club', style: TextStyle(color: Colors.white54, fontSize: 11, letterSpacing: 1.5)),
+              ]))),
+              Expanded(flex: 9, child: Center(child: SingleChildScrollView(padding: const EdgeInsets.all(56), child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 440), child: _LoginCard())))),
+            ]);
+          }
+          return SafeArea(child: Center(child: ConstrainedBox(constraints: const BoxConstraints(maxWidth: 430), child: Column(children: [
+            Container(height: 300, width: double.infinity, color: deepBlue, child: Column(mainAxisAlignment: MainAxisAlignment.center, children: const [BrandSignature(inverted: true), SizedBox(height: 20), Text('WELCOME!', style: TextStyle(color: Colors.white, fontSize: 21, letterSpacing: .7)), SizedBox(height: 25), Icon(Icons.account_balance, color: Colors.white, size: 112)])),
+            Expanded(child: Padding(padding: const EdgeInsets.fromLTRB(32, 26, 32, 20), child: _LoginCard())),
+          ])));
+        }),
       );
+}
+
+class _FeaturePill extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  const _FeaturePill({required this.icon, required this.label});
+  @override
+  Widget build(BuildContext context) => Container(padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 9), decoration: BoxDecoration(color: Colors.white.withOpacity(.12), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white24)), child: Row(mainAxisSize: MainAxisSize.min, children: [Icon(icon, color: Colors.white, size: 17), const SizedBox(width: 7), Text(label, style: const TextStyle(color: Colors.white, fontSize: 12))]));
+}
+
+class _LoginCard extends StatelessWidget {
+  const _LoginCard();
+  @override
+  Widget build(BuildContext context) => Container(padding: const EdgeInsets.all(34), decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24), boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 30, offset: Offset(0, 12))]), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        const Text('Bienvenue', style: TextStyle(color: ink, fontSize: 30, fontWeight: FontWeight.w700)),
+        const SizedBox(height: 7),
+        const Text('Connectez-vous à votre espace BankFlow.', style: TextStyle(color: Colors.grey, fontSize: 13)),
+        const SizedBox(height: 28),
+        const Text('IDENTIFIANT', style: TextStyle(color: navy, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
+        const SizedBox(height: 7),
+        const TextField(decoration: InputDecoration(hintText: 'Username or Email', prefixIcon: Icon(Icons.person_outline, size: 19))),
+        const SizedBox(height: 17),
+        const Text('MOT DE PASSE', style: TextStyle(color: navy, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 1)),
+        const SizedBox(height: 7),
+        const TextField(obscureText: true, decoration: InputDecoration(hintText: 'Password', prefixIcon: Icon(Icons.lock_outline, size: 19))),
+        const SizedBox(height: 22),
+        SizedBox(width: double.infinity, height: 48, child: ElevatedButton(onPressed: () => Navigator.pushNamed(context, '/dashboard'), style: ElevatedButton.styleFrom(backgroundColor: navy, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))), child: const Text('SE CONNECTER', style: TextStyle(letterSpacing: 1, fontWeight: FontWeight.bold))),
+        const SizedBox(height: 12),
+        Center(child: TextButton(onPressed: () {}, child: const Text('Mot de passe oublié ?', style: TextStyle(color: cyan, fontSize: 12)))),
+        const Divider(height: 28),
+        Center(child: Text.rich(TextSpan(text: 'Nouveau sur BankFlow ? ', style: const TextStyle(color: Colors.grey, fontSize: 12), children: [WidgetSpan(child: GestureDetector(onTap: () => Navigator.pushNamed(context, '/signup'), child: const Text('Créer un compte', style: TextStyle(color: cyan, fontSize: 12, fontWeight: FontWeight.bold))))])),
+      ]));
 }
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
